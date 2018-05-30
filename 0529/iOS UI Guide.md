@@ -67,7 +67,7 @@ a를 만들면 Rendered Pixels를 거쳐서 Pixel로 만들어 준뒤 실제 화
 
 다음은 iPhone Resolutions입니다. 전기종이 Points -> Rendered Pixels -> Physical Device의 절차로 Render를 해서 화면을 보여주고 있습니다.
 
-![iPhone Resolutions](./img/poster_iphones.pdf)
+![iPhone Resolutions](./img/poster_iphones.png)
 
 
 
