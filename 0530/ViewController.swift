@@ -35,15 +35,22 @@ class ViewController: UIViewController {
         countButten.setTitleColor(UIColor.white, for: .normal)
         countButten.backgroundColor = UIColor.black
         
-        //touchDown - tap을 하면 실행
+        //touchDown - 컨트롤을 터치하면 동작
 //        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchDown)
-        //touchUpInside - tap을 했다가 button bounds 안에서 떼면 실행
-        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchUpInside)
-        //touchUpOutside - tap을 했다가 button bounds 밖에서 떼면 실행
+        
+        //touchUpInside - 컨트롤 영역 안에서 터치후 뗏을때 동작
+//        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchUpInside)
+        
+        //touchDownRepeat - 여러번 터치를 했을때 동작
+        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchDownRepeat)
+        
+        //touchUpOutside - 컨트롤 영역 안에서 터치후 컨트롤 영역 밖에서 뗏을때 동작
 //        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchUpOutside)
-        //touchDragEnter - tap을 한뒤에 bounds 밖으로 나갔다가 다시 bounds로 돌아오는 순간(경계를 만나면) 실행
+        
+        //touchDragEnter - 터치 영역이 컨트롤의 일정 영역 바깥쪽으로 나갔다가 다시 들어왔을 때 동작
 //        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchDragEnter)
-        //touchDragExit - tap을 한뒤에 bounds 밖으로 나가면 실행
+        
+        //touchDragExit - 터치 영역이 컨트롤의 일정 영역 바깥쪽으로 나갔을 때 동작
 //        countButten.addTarget(self, action: #selector(showAlert(_:)), for: UIControlEvents.touchDragExit)
         
         //Button의 위치를 변경해줬습니다.
@@ -67,10 +74,10 @@ class ViewController: UIViewController {
     
     @objc func showAlert(_ button: UIButton) {
         
-        //UIAlertControllerStyle.actionSheet - actionSheet(아래서 올라오는)로 보여줍니다.
+        // UIAlertControllerStyle.actionSheet - actionSheet(아래서 올라오는)로 보여줍니다.
         let alertController = UIAlertController(title: "COUNT", message: "OK: + 1, Cancel: + 0", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        //UIAlertControllerStyle.alert - alert 창으로 보여줍니다.
+        // UIAlertControllerStyle.alert - alert 창으로 보여줍니다.
 //        let alertController = UIAlertController(title: "COUNT", message: "OK: + 1, Cancel: + 0", preferredStyle: UIAlertControllerStyle.alert)
 
 
