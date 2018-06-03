@@ -1,3 +1,11 @@
+# Daily iOS study
+
+매일매일 iOS Develrop을 공부한 내용을 정리해 놓은 곳입니다.
+
+이전 공부내용은 [Swift4 study](https://github.com/JhDAT/Swift)에 있습니다.
+
+
+
 ## 180528
 
 [0528 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0528)
@@ -24,7 +32,7 @@ iOS UI Guide, frame에 대해서 학습하기
 
 
 
-# 180530
+## 180530
 
 [0530 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0530)
 
@@ -32,7 +40,27 @@ iOS UI Guide, frame에 대해서 학습하기
 
 
 
+## 180531
+
+[0531 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0531)
+
+Functional Reactive Programming Paradigm
+
+High - order Function - 고차함수
+
+Swift 내에서의 High-order Function
 
 
 
+## 180601
+
+계산기 만들어보기 주어진 UI를 가지고 계산기를 만들어보기
+
+
+
+## 180603
+
+[0603 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0603/Calculator-Starter)
+
+계산기 기능을 추가해서 만들어보기 
 
