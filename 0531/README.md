@@ -5,7 +5,8 @@
 ### What can I Konw?
 
 - Functional Reactive Programming Paradigm
-- a
+- High - order Function - 고차함수
+- Swift 내에서의 High-order Function
 
 
 
