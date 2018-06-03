@@ -503,6 +503,10 @@ print(names.filter { $0 == "Alex" })
 ```swift
 func reduce<Result>(_ initialResult: Result, _ nextPartialResult: (Result, Int) throws -> Result) rethrows -> Result
 
+a.reduce(Result) { (Result, Int) -> Result in
+    code
+}
+
 reduce(초기값, {결과값, input값} in 결과값 + input값)
 ```
 
@@ -777,36 +781,20 @@ print(immutableArray4.enumerated()
 
 #### 고차함수 정리 (여기에 있는)
 
+| Height-order Function | Body                         | Return                                 |
+| --------------------- | ---------------------------- | -------------------------------------- |
+| .forEach              | (Int) in                     | 반환값이 없는 형태                     |
+| .map                  | (String) -> T in             | 변경된 새로운 컬렉션                   |
+| .filter               | (String) -> Bool in          | 조건을 만족하는 새로운 컬렉션          |
+| .reduce               | Result, Int) -> Result in    | 요소들이 결합된 단 하나의 타입         |
+| .flatMap              | ([Int]) -> Sequence in       | 중첩된 컬렉션을 하나의 컬렉션으로 병합 |
+| .compactMap           | (Int) -> ElementOfResult? in | 옵셔널이 있으면 제거                   |
 
 
 
+<br>
 
-| Height-order Function | Body | Return                         |
-| --------------------- | ---- | ------------------------------ |
-| .forEach              |      | 반환값이 없는 형태             |
-| .map                  |      | 변경된 새로운 컬렉션           |
-| .filter               |      | 조건을 만족하는 새로운 컬렉션  |
-| .reduce               |      | 요소들이 결합된 단 하나의 타입 |
-| .flatMap              |      |                                |
-| .compactMap           |      |                                |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-함수로도 만들어 보고 고차 함수로도 만들어 봐서 정리
+<br>
 
 #### Shorthand Argument Names 
 
@@ -816,13 +804,149 @@ filter : [T] -> [T]
 reduce : [T] -> U
 ```
 
+ 1. 배열의 각 요소 * index 값을 반환하는 함수
+
+ 2. 배열 요소 중 홀수는 제외하고 짝수만 반환하는 함수
+
+ 3. 배열의 모든 값을 더하여 반환하는 구현
+
+ 4. immutableArray 에 대해서 1~3 번 함수를 차례대로 적용한 최종 값을 반환
+
+```swift
+let immutableArray = Array(1...40)
+
+// 1.배열의 각 요소 * index 값을 반환하는 함수
+immutableArray.enumerated().map { (offset: Int, element: Int) -> Int in
+    return offset * element
+}
+immutableArray.enumerated().map { $0 * $1 }
+// [0, 2, 6, 12, 20, 30, 42, 56, 72, 90, 110, 132, 156, 182, 210, 240, 272, 306, 342, 380, 420, 462, 506, 552, 600, 650, 702, 756, 812, 870, 930, 992, 1056, 1122, 1190, 1260, 1332, 1406, 1482, 1560]
+
+// 2.배열 요소 중 홀수는 제외하고 짝수만 반환하는 함수 
+immutableArray.filter { (num) -> Bool in
+    return num % 2 == 0
+}
+immutableArray.filter { $0 % 2 == 0 }
+// [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40]
+
+// 3.배열의 모든 값을 더하여 반환하는 구현 
+immutableArray.reduce(0) { (result, num) -> Int in
+    return result + num
+}
+immutableArray.reduce(0) { $0 + $1 }
+// 820
+
+// 4. immutableArray 에 대해서 1~3 번 함수를 차례대로 적용한 최종 값을 반환
+pimmutableArray.enumerated()
+    .map { $0 * $1 }
+    .filter{ $0 % 2 == 0 }
+    .reduce(0) { $0 + $1 }
+
+immutableArray.enumerated().map( * ).filter{ $0 & 1 == 0 }.reduce(0, + ), "a"
+// 21320
+
+
+```
+
+.map은 조건을 한개의 요소 마다 대입한 뒤에 결과값을 새 컬렉션에 담아서 반환.
+
+.filter는 조건을 만족하는 요소를 반환, 만족하지 않으면 제거 한뒤 새 컬렉션에 담아서 반환
+
+.reduce는 요소 전체를 결합한 결과를 반환
+
+.flatMap은 중첩된 컬렉션을 하나의 컬렉션으로 반환 (가장 안쪽의 컬렉션을 제거 후 반환)
+
+.compactMap는 요소의 옵셔널을 제거 후 반환
+
 
 
 #### map vs compactMap (4.1 ver 이후)
 
 map는 nil값을 허용합니다.
 
-flatMap, compactMap는 nil을 허용하지 않습니다.
+flatMap, compactMap는 nil을 허용하지 않습니다. (옵셔널을 언렙핑 하는 기능)
+
+```swift
+let array = ["1j", "2d", "22", "33"]
+
+let m1 = array.map({ Int($0) })
+let f1 = array.flatMap({ Int($0) })
+print(m1) // [nil, nil, Optional(22), Optional(33)]
+print(f1) // [22, 33]
+
+
+let m2 = array.map({ Int($0) }).first
+let f2: Int? = array.flatMap({ Int($0) }).first
+print(m2!) // nil
+print(f2!) // 22
+```
+
+
+
+### Q. map 과 flatMap 을 이용하여 다음 결과를 출력해보세요. 
+
+ 1. [[Optional(1), Optional(2), Optional(3)], [nil, Optional(5)], [Optional(6),
+
+ nil], [nil, nil]]
+
+ 2. [[1, 2, 3], [5], [6], []]
+
+ 3. [Optional(1), Optional(2), Optional(3), nil, Optional(5), Optional(6), nil,
+
+ nil, nil]
+
+ 4. [1, 2, 3, 5, 6]
+
+```swift
+let array: [[Int?]] = [[1, 2, 3], [nil, 5], [6, nil], [nil, nil]]
+
+/*
+ Q. map 과 flatMap 을 이용하여 다음 결과를 출력해보세요.
+ 1. [[Optional(1), Optional(2), Optional(3)], [nil, Optional(5)], [Optional(6),
+ nil], [nil, nil]]
+ 2. [[1, 2, 3], [5], [6], []] 
+ 3. [Optional(1), Optional(2), Optional(3), nil, Optional(5), Optional(6), nil,
+ nil, nil] 
+ 4. [1, 2, 3, 5, 6]
+ */
+
+// [[Optional(1), Optional(2), Optional(3)], [nil, Optional(5)], [Optional(6), nil], [nil, nil]]
+print(array.map { $0 }) // map은 optional도 반환합니다.
+print(array.map { $0.flatMap { $0 } })
+/*
+ 1. .map을 만나서 배열이 한번 벗겨진다음 값이 들어 가서
+ 2. [Optional(1), Optional(2), Optional(3)], [nil, Optional(5)], [Optional(6), nil], [nil, nil]
+ 3. flatMap을 만나서 배열이 한번 더 벗겨진다음
+ 4. Optional(1), Optional(2), Optional(3),
+    nil, Optional(5),
+    Optional(6), nil,
+    nil, nil
+ 5. 옵셔널들이 제거된 뒤에 새로운 배열에 넣어서 반환하고 값이 없으면 빈배열을 반환하고
+ 6. [1, 2, 3], [5], [6], []
+ 7. map에서 반환되면서 새로운 배열에 넣어지게 됩니다.
+ 7. [[1, 2, 3], [5], [6], []]
+*/
+
+// [Optional(1), Optional(2), Optional(3), nil, Optional(5), Optional(6), nil, nil, nil
+print(array.flatMap { $0 })
+/*
+ flatMap은 2개의 기능을 가지고 있는데, 안쪽의 배열을 제거 하거나, 옵셔널을 제거합니다.
+ 이걸 구분하기가 쉽지않아서 4.1이상부터는 옵셔널은 언렙핑할때 array.compactMap를 사용합니다.
+ */
+print(array.flatMap { $0.flatMap{ $0 } })
+ /*
+ 1. flatMap를 만나서 안쪽의 배열이 하나 벗져지고 들어가서
+ 2. flatMap를 다시 한번 만나서 안쪽에 배열이 없으니까 외부의 배열을 벗겨서 옵셔널을 제거하고
+ 3. 다시 배열로 담아서 반환합니다.
+ */
+
+// 안쪽에서 map을 사용해보면?
+print(array.flatMap { $0.map{ $0 } })
+// map은 옵셔널도 반환하기 때문에 flatMap만 사용한것과 같은 결과가 나옵니다.
+//[Optional(1), Optional(2), Optional(3), nil, Optional(5), Optional(6), nil, nil, nil]
+```
+
+
 
 
 
@@ -850,22 +974,22 @@ let f3 = array.flatMap({ $0.flatMap({ $0 }) }) // 마지막은 compatMap으로 �
 
 
 
+## 실제로 사용하는 경우
+
 
 
 ```swift
 let aLabel = view.subviews.flatMap({ $0 as? UILabel }).first
-
-$0로 subviews 타입이 들어와서
-as? UILabel 타입 비교를 하고
-옵셔널을 벗길수 있다.
-그러고 다시 .first에서 옵셔널이 붙어서
-
-마지막 타입은 UILable 옵션널입니다.
-
-그래서 이건 바인딩을 사용해서 해야 합니다. (바딩인이 되면 옵셔널이 사라집니다.)
 ```
 
-그걸 for문으로
+1. $0의 suybView의 Type이 들어옵니다.
+2. as?로 $0와 UILabel의 Type을 비교합니다.
+3. 옵셔널이 언렙핑 된 뒤에
+4. .first에 옵셔널이 붙어서 반환됩니다.
+5. 그래서 마지막 타입은 UILabe의 옵셔널입니다.
+6. 옵셔널을 제거 하려면 바인딩을 사용해서 작업을 합니다.
+
+위의 문장을 for문으로 작성하면 더 길어 지게 됩니다.
 
 ```swift
 for object in objects {
