@@ -38,18 +38,37 @@ class ThirdViewController: UIViewController {
     }
     
     // alert을 사용해서 ViewController에 있는 label에 값을 넣어줄건지를 물어봅니다.
+//    @objc private func showViewAndCount (_ : UIButton) {
+//        let showAlert = UIAlertController(title: "카운터를 하시겠습니까?", message: nil, preferredStyle: .alert)
+//
+//        let alertOk = UIAlertAction(title: "OK", style: .default) { (_) in
+//            self.viewCountTextLabel()
+//        }
+//
+//        let alertCansel = UIAlertAction(title: "Cansel", style: .cancel) { (_) in
+//        }
+//
+//        for idx in [alertOk, alertCansel] {
+//            showAlert.addAction(idx)
+//        }
+//        self.present(showAlert, animated: true)
+//
+//    }
+    
+    
     @objc private func showViewAndCount (_ : UIButton) {
         let showAlert = UIAlertController(title: "카운터를 하시겠습니까?", message: nil, preferredStyle: .alert)
         
-        let alertOk = UIAlertAction(title: "OK", style: .default) { (_) in
+        showAlert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
             self.viewCountTextLabel()
-        }
+
+        })
         
-        let alertCansel = UIAlertAction(title: "Cansel", style: .cancel) { (_) in
-        }
-        for idx in [alertOk, alertCansel] {
-            showAlert.addAction(idx)
-        }
+        showAlert.addAction(UIAlertAction(title: "Cansel", style: .cancel) { (_) in
+        })
+//        for idx in [alertOk, alertCansel] {
+//            showAlert.addAction(idx)
+//        }
         self.present(showAlert, animated: true)
         
     }
