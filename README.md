@@ -74,7 +74,7 @@ Swift 내에서의 High-order Function
 
 ## 180604
 
-[0604 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0604)
+[0604 보러가기](hhttps://github.com/JhDAT/iOS-development-study/tree/master/0604)
 
 1. 화면 전환을 Storyboard를 사용해서 구현해보기
 2. 화면 전환을 code(ViewContoller)를 사용해서 구현해 보기
@@ -89,7 +89,7 @@ Swift 내에서의 High-order Function
 
 ## 180605
 
-[0605 보러가기]()
+[0605 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0605)
 
 Singleton에 대해서 알아보기
 
@@ -114,6 +114,8 @@ UserDefaults에 대해서 알아보기
 <br>
 
 ## 180607
+
+[0608 보러가기](https://github.com/JhDAT/iOS-development-study/tree/master/0607)
 
 Delegate,  로그인 페이지 만들기
 
