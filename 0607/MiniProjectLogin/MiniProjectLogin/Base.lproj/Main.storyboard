@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--User Info Enter-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="UserInfoEnter" customModule="MiniProjectLogin" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FastCampus_Logo-2" translatesAutoresizingMaskIntoConstraints="NO" id="mb5-uk-5GB">
+                                <rect key="frame" x="60" y="70" width="254" height="76"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mb5-uk-5GB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="R6c-TD-fVh"/>
+                            <constraint firstItem="mb5-uk-5GB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60.5" id="aoe-GK-PVs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mb5-uk-5GB" secondAttribute="trailing" constant="60.5" id="wG0-NH-KHG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="132.68365817091455"/>
+        </scene>
+        <!--Second View Controller-->
+        <scene sceneID="aZq-Yo-xO2">
+            <objects>
+                <viewController storyboardIdentifier="SecondViewController" id="Ypw-qx-N6h" customClass="SecondViewController" customModule="MiniProjectLogin" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lCX-bi-pNa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOh-3m-bYm">
+                                <rect key="frame" x="20" y="48" width="47" height="30"/>
+                                <state key="normal" title="&lt; back"/>
+                                <connections>
+                                    <action selector="secondViewDismiss" destination="Ypw-qx-N6h" eventType="touchUpInside" id="Dhe-qN-BG6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="DOh-3m-bYm" firstAttribute="leading" secondItem="4e5-o3-gEs" secondAttribute="leading" constant="20" id="uzJ-xa-aAP"/>
+                            <constraint firstItem="DOh-3m-bYm" firstAttribute="top" secondItem="4e5-o3-gEs" secondAttribute="top" constant="28" id="vZa-K0-qvk"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4e5-o3-gEs"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uFm-NF-sUy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1020" y="133"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="FastCampus_Logo-2" width="345" height="76"/>
+    </resources>
+</document>
