@@ -27,7 +27,7 @@
 
 <br>
 
-## Delegate 선언
+## Delegate 선언부
 
 - 선언만 하고 실제로 어떤 기능을 할지는 알수가 없습니다. 
 
@@ -47,17 +47,41 @@ class CustomView: UIView {
 ```
 
 1. protocol을 생성합니다.
+
+   ```swift
+   protocol CustomViewDelegate: class {
+   	func viewFrameChanged(newFrame:CGRect)
+   }
+   ```
+
 2. class에 protocol을 type으로 가지는 delegate property를 생성합니다.
-3. Delegate의 instance의 method를 실행합니다.
-   - 현재 customView입장에서는 delegate instance의 존재 여부를 알수 없습니다.
-   - 하지만 instance(A)가 나의 delegate instance 값을 할당했다면, 분명 A는 나의 protocol을 채택하였으며, 타입이 같기 때문에 method를 구현했다는 것까지 알게 됩니다.
-   - Delegate method를 사용해서 method를 실행 및 반환값을 받아와 사용할수 있게 됩니다.
 
+   ```swift
+   weak var delegate: CustomViewDelegate?
+   ```
 
+3. Delegate instance의 method를 생성합니다.
 
-여기서 layoutSubviews는 UIView를 상속받아 override를 하면 사용할수 있는 함수인데, 서브뷰의 사이즈나 position을 변경할수 있습니다.
+   ```swift
+   override func layoutSubviews() {
+           delegate?.viewFrameChanged(newFrame: frame)
+   }
+   ```
 
-또 layoutSubviews는 서브뷰들이 위치를 새로 잡을때마다 호출되게 되는데 method 내부에 delegate?.viewFrameChanged(newFrame: frame)를 넣어놨기 때문에 서브뷰의 사이즈나 position이 변경되면 해당 method를 호출하게됩니다.
+   - `override func layoutSubviews() { delegate?.viewFrameChanged(newFrame: frame) }` 은 `class CustomView` 가 **UIView**를 상속받아서 override(재정의)해 사용하는 함수로 subview의 size나 position이 변경되면 호출이 됩니다. 
+
+   - 여기서는 구현부에서 subview가 생성되면서 subview의 size가 변경되었고 변경되었기 때문에 layoutSubviews method가 실행되게되고, `delegate?.viewFrameChanged(newFrame: frame)`를 만나 **delegate?** 의 참조정보를 바탕으로 Delegate Method를 실행하게 됩니다.
+
+   - 만약 구현부에서 아래와 같이 선언했다면
+
+     ```swift
+     let customView = CustomView()
+     customView.delegate = self		// self == ViewController
+     ```
+
+   - Delegate?의 참조정보는 ViewController이 됩니다. 이는 ViewController가 Delegate Instance에 할당되었다면 분면 ViewController은 나와 같은 Protocol(속성)을 채택하였으며, 할당된 Type이 같기 때문에 Delegate method를 구현했다는것까지 알게 됩니다.
+
+   - 그렇기 때문에 ViewController의 Delegate method를 실행할수 있게 됩니다.
 
 <br>
 
@@ -85,14 +109,21 @@ func viewFrameChanged(newFrame: CGRect) {
 ```
 
 1. class에 위에서 선언한 CustomViewDelegate 채택
+
 2. 채택한 Delegate method 구현합니다.
+
    -  `func viewFrameChanged(newFrame: CGRect) { print("Change frame : \(newFrame)")  }` 입니다.
-   - customView의 frame이 변경될때마다 실행이 됩니다.
+   - customView의 frame이 변경될때마다 delegate?를 통해서 method가 실행되게 됩니다.
+
 3. 위임자(대리자)를 정해주는 과정을 해야 합니다.
-   - 여기서는 `customView.delegate = self` 입니다
-   - `customView` 가 해야 할일을 알려주는건 내가 할게 라는 뜻입니다. 여기서 나는 `ViewController` 입니다.
-   - 즉 이벤트가 발생하면 `ViewController` 은 프로토콜에 따라 `customView` 에게 알려주겠다 라는 상태입니다.
-   - 프레임이 변경될때마다 ViewController은 프로토콜에 따라 customView에게 알려주게 되고 customView는 `override func layoutSubviews() { delegate?.viewFrameChanged(newFrame: frame) }` 를 실행하게 됩니다.
+
+   - 위임자를 지정해주기 전까지는 delegate?는 참조정보를 알수 없습니다. 
+   - delegate?에 참조정보를 넣어줘야 나와 같은 속성을 채택하고(여기서는 protocol), Delegate method를 여기에 구현했다는것을 선언부에서 알수 있습니다.
+
+   - 위임자를 정해주는 과정이 `customView.delegate = self` 입니다
+   - ` ViewController` 은 ` customView` 가 하는 동작에 대해서는 간섭하지 않지만`  customView` 에 특정이벤트가 발생하면 ` ViewController` 에도 알려달라고 하는 상태입니다. 
+   - 알려주는 방법은`  method` 를 호출해서 알려주는것이고, 이때 호출 되는 ` method` 가 ` Delegate Method` 입니다. 여기서는  `func viewFrameChanged(newFrame: CGRect) { print("Change frame : \(newFrame)") }` 가 실행하게 됩니다. (func의 실행을 Delegate 선언부에서 합니다.)
+   - 이렇게 되면 `ViewController` 은 `func viewFrameChanged(newFrame: CGRect) {}` 이 언제 실행될지를 알수가 없고 실행이 되어야지만 알수 있게 됩니다.
 
 <br>
 
@@ -161,15 +192,15 @@ class ViewController: UIViewController, CustomButtonDelegate, CustomViewDelegate
 
 `CustomViewDelegate` 를 채택했으니 선언부에서 만들어준 func viewFrameChanged(newFrame: CGRect) {}를 사용해야합니다.
 
+이 **Delegate method**를 통해서 `ViewController`은 `CustomButton`과 `CustomView`에 이벤트가 있다는것을 알게 됩니다.
+
 <br>
 
 그리고 `button` 은 `class CustomButton` 을 할당받았고,` custonView` 는 `CustomView` 를 할당받은 뒤
 
 `customView.delegate = self` , `button.delegate = self` 로 위임자를 지정해줬습니다.
 
-위임자(대리자)로 지정된 ViewController은 이벤트가 발생하면 프로토콜에 따라 customView와 button에게 알려주게 되고 각각 정의된 method를 실행하게 됩니다.
-
-button 과 customView
+위임자(대리자)로 지정된 ViewController은 동작에는 관여하지 않지만 이벤트가 발생하면 Delegate의 속성에 따라 `customView` 와 `button` 에게 알려주게 되고 각각 정의된 **Delegate method**를 실행하게 됩니다.
 
 <br>
 
@@ -185,7 +216,7 @@ button 과 customView
 
    - func layoutSubviews()는 서브뷰에 위치를 새로잡으면 실행됩니다.
 
-5. method 내부에 있는 `delegate?.viewFrameChanged(newFrame: frame)` 가 실행되면서 `ViewController` (구현부)의 함수가 실행됩니다. 여기서 `CustomView`의 frame값을 parameter로 구현부로 넘겨주게 되면서 변경된 값이 출력되게 됩니다. 
+5. method 내부에 있는 `delegate?.viewFrameChanged(newFrame: frame)` 가 실행되면서 delegate?가 참조하는 `ViewController` (구현부)의 Delegate method가 실행됩니다. 여기서 `CustomView`의 frame값을 parameter로 구현부로 넘겨주게 되면서 변경된 값이 출력되게 됩니다. (여기서 customView는 ViewController에 있는 Delegate method를 실행하게 됩니다.)
 
    ```swift
        func viewFrameChanged(newFrame: CGRect) {
@@ -193,9 +224,9 @@ button 과 customView
        }
    ```
 
-   
-
 6. 그뒤 다시 CustomView(선언부)로 넘어가서 더이상 실행할 명령이 없으면 종료하게 됩니다.
+
+<br>
 
 <br>
 
