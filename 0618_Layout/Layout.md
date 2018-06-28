@@ -223,6 +223,8 @@ ViewFrame을 기반으로 모든 뷰에 대해 개별적인 설정과 관리를 
 - Content Compression Resistance은 더 이상 줄어들지 못하도록 최소 크기에 제한을 말합니다.
   - ~~Intrinsic Size이하로 줄어들지 못하게 하는것을 말하는걸까~~
 
+![CHCR.png](./img/CHCR.png)
+
 <br>
 
 <br>
