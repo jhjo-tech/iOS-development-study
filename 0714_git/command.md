@@ -11,12 +11,15 @@
   - 원격 저장소의 브랜치 목록을 볼수 있습니다.
 - `git branch -a`
   - 모든 저장소의 브랜치 목록을 볼수 있습니다.
-- `git checkout -t origin/<브랜치명>`
+- `git checkout -t <브랜치명>`
   - 원격 저장소에 있는 branch의 이름을 그대로 가져 올때 사용합니다.
 - `git checkout  -b <생성할브랜치> <원격브랜치>`
   - 원격저장소에 있는 branch를 이름을 변경해서 가져옵니다.
-
-
+- `git clone -b <branch> <remote_repo>`
+  - 원격저장소에 있는 branch를 복제하고 싶을때 사용합니다.
+  - 예) git clone -b aaa https://github.com/JhDAT/example.git 
+- `git pull origin master`
+  - Fetch(업데이트) 후 Merge까지 진행합니다. 
 
 ## 상황별 사용
 
